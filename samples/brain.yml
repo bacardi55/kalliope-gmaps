@@ -46,3 +46,21 @@
           args:
             - search
           file_template: "templates/fr_gmaps.j2"
+
+  - name: "Gmaps-distance-from-home-by-tube"
+    signals:
+      - order: "métro {{destination}}"
+    neurons:
+      - say:
+          message: "Calcul en cours"
+      - gmaps:
+          gmaps_api_key: "*********"
+          mode: "transit"
+          language: "fr"
+          units: "metric"
+          origin: "******"
+          direction: True
+          args:
+            - destination
+          file_template: "templates/fr_gmaps.j2"
+
