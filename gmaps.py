@@ -18,7 +18,7 @@ class Gmaps (NeuronModule):
             "origin": kwargs.get('origin', None),
             "destination": kwargs.get('destination', None),
             "direction": kwargs.get('direction', False),
-            "language": kwargs.get('language', "english"),
+            "language": kwargs.get('language', "en"),
             "units": kwargs.get('units', 'metric'),
             "mode": kwargs.get('mode', 'driving'),
             "traffic_model": kwargs.get('traffic_model', "best_guess"),
