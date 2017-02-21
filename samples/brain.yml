@@ -64,3 +64,19 @@
             - destination
           file_template: "templates/fr_gmaps.j2"
 
+  - name: "Gmaps-directions-by-care" 
+    signals:  
+      - order: "directions {{destination}}" 
+    neurons: 
+      - say: 
+          message: "Calcul en cours" 
+      - gmaps: 
+          gmaps_api_key: "*********"
+          mode: "driving" 
+          language: "fr" 
+          units: "metric" 
+          origin: "*******" 
+          direction: True 
+          args: 
+            - destination 
+          file_template: "templates/fr_gmaps.j2" 

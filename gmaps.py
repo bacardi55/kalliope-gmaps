@@ -130,13 +130,12 @@ class Gmaps (NeuronModule):
                                         mode = self.configuration['mode'], 
                                         alternatives=False, 
                                         language = self.configuration['language'], 
-                                        units = self.configuration['units'], 
-                                        traffic_model = self.configuration['traffic_model'])
+                                        units = self.configuration['units'])
 
         directions = []
         for leg in results[0]['legs']:
             for step in leg['steps']:
-                directions.append(step['html_instructions'])
+                directions.append(step['html_instructions'].replace('<b>', '').replace('</b>', ''))
 
         logger.debug(directions)
         return directions
