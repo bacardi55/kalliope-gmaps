@@ -17,6 +17,7 @@ class Gmaps (NeuronModule):
             "gmaps_api_key": kwargs.get('gmaps_api_key', None),
             "origin": kwargs.get('origin', None),
             "destination": kwargs.get('destination', None),
+            "direction": kwargs.get('direction', False),
             "language": kwargs.get('language', "english"),
             "units": kwargs.get('units', 'metric'),
             "mode": kwargs.get('mode', 'driving'),
@@ -35,7 +36,8 @@ class Gmaps (NeuronModule):
                 "status": "KO",
                 "distance": 0,
                 "time": 0,
-                "time_traffic": 0
+                "time_traffic": 0,
+                "directions": False
             }
 
             # If no destination is given, find searched place instead
@@ -53,8 +55,13 @@ class Gmaps (NeuronModule):
                     response['status'] = "OK"
                     # Just the first result is enough:
                     response['time'] = results['rows'][0]['elements'][0]['duration']['text']
-                    response['time_traffic'] = results['rows'][0]['elements'][0]['duration_in_traffic']['text']
+                    if 'duration_in_traffic' in results['rows'][0]['elements'][0]:
+                        response['time_traffic'] = results['rows'][0]['elements'][0]['duration_in_traffic']['text']
                     response['distance'] = results['rows'][0]['elements'][0]['distance']['text']
+
+                if self.configuration['direction']:
+                    # Calculate the direction to go from origin to destination
+                    response['directions'] = self._get_directions()
 
             message = {
                 'status': response['status'],
@@ -63,7 +70,8 @@ class Gmaps (NeuronModule):
                 'search': self.configuration['search'],
                 'distance': response['distance'],
                 'time': response['time'],
-                'time_traffic': response['time_traffic']
+                'time_traffic': response['time_traffic'],
+                'directions': response['directions']
             }
 
             logger.debug("message: %s" % message)
@@ -93,6 +101,7 @@ class Gmaps (NeuronModule):
         """
         Return an address based on a name place.
         :return: An address in string format, raise an exception otherwise
+        .. raises:: InvalidParameterException
         """
         logger.debug('In _get_place_address: %s' % place)
         results = self.gmaps.places(place, language=self.configuration['language']) 
@@ -109,6 +118,28 @@ class Gmaps (NeuronModule):
         
         raise InvalidParameterException("Google maps couldn't found your place name")
 
+    def _get_directions(self):
+        """
+        Calculate direction between origin and destination
+        :return: a List of direction steps
+        .. raises:: InvalidParameterException
+        """
+        logger.debug('In _get_direction')
+        results = self.gmaps.directions(self.configuration['origin'], 
+                                        self.configuration['destination'], 
+                                        mode = self.configuration['mode'], 
+                                        alternatives=False, 
+                                        language = self.configuration['language'], 
+                                        units = self.configuration['units'], 
+                                        traffic_model = self.configuration['traffic_model'])
+
+        directions = []
+        for leg in results[0]['legs']:
+            for step in leg['steps']:
+                directions.append(step['html_instructions'])
+
+        logger.debug(directions)
+        return directions
 
     def _is_parameters_ok(self):
         """
