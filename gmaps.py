@@ -133,11 +133,11 @@ class Gmaps (NeuronModule):
         directions = []
         for leg in results[0]['legs']:
             for step in leg['steps']:
-                directions.append(BeautifulSoup(step['html_instructions']).text)
+                directions.append(BeautifulSoup(step['html_instructions'], "html.parser").text)
                 if 'steps' in step:
                     for s in step['steps']:
                         if 'html_instructions' in s:
-                            directions.append(BeautifulSoup(s['html_instructions']).text)
+                            directions.append(BeautifulSoup(s['html_instructions'], "html.parser").text)
 
         return directions
 
