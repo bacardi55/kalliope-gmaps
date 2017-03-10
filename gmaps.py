@@ -1,5 +1,6 @@
 import logging
 import googlemaps
+from bs4 import BeautifulSoup
 
 from kalliope.core.NeuronModule import NeuronModule, InvalidParameterException
 from datetime import datetime
@@ -25,8 +26,6 @@ class Gmaps (NeuronModule):
             "search": kwargs.get('search', None)
         }
 
-        logger.debug(self.configuration)
-
         # Check parameters:
         if self._is_parameters_ok():
             # TODO: handle exceptions and errors 
@@ -49,8 +48,7 @@ class Gmaps (NeuronModule):
                 # re-init status:
                 response['status'] == "KO"
                 # Calculate destination between origin and distance
-	        results = self._get_distance()
-                logger.debug(results)
+                results = self._get_distance()
                 if results['status'] == "OK":
                     response['status'] = "OK"
                     # Just the first result is enough:
@@ -135,9 +133,12 @@ class Gmaps (NeuronModule):
         directions = []
         for leg in results[0]['legs']:
             for step in leg['steps']:
-                directions.append(step['html_instructions'].replace('<b>', '').replace('</b>', ''))
+                directions.append(BeautifulSoup(step['html_instructions']).text)
+                if 'steps' in step:
+                    for s in step['steps']:
+                        if 'html_instructions' in s:
+                            directions.append(BeautifulSoup(s['html_instructions']).text)
 
-        logger.debug(directions)
         return directions
 
     def _is_parameters_ok(self):

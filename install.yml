@@ -5,7 +5,11 @@
   become: true
 
   tasks:
-    - name: "Install pip dependencies"
+    - name: "Install gmaps pip dependencies"
       pip:
         name: googlemaps
         version: 2.4.5
+    - name: "Install beautifulsoup pip dependencies"
+      pip:
+        name: beautifulsoup4
+        version: 4.5.3
