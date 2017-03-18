@@ -231,6 +231,6 @@ Get the direction to go to destination by car
 
 see more example in the [sample directory](https://github.com/bacardi55/kalliope-mpd/blob/master/samples/)
 
-
-* [my posts about kalliope](http://bacardi55.org/en/term/kalliope)
+* [a post about this neuron](http://bacardi55.org/2017/02/21/kalliope-googlemaps-neuron.html)
+* [my posts about kalliope](http://bacardi55.org/kalliope.html)
 
