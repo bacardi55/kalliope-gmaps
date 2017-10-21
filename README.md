@@ -79,9 +79,8 @@ Get the distance and time between 2 locations
           language: "en"
           units: "metric"
           traffic_model: "pessimistic"
-          args:
-            - origin
-            - destination
+          origin: "{{origin}}"
+          destination: "{{destination}}"
           file_template: "templates/en_gmaps.j2"
 ```
 
@@ -99,8 +98,7 @@ Get the distance between a defined place and a destination
           units: "metric"
           origin: "***my home address***"
           mode: "driving"
-          args:
-            - destination
+          destination: "{{destination}}"
           file_template: "templates/en_gmaps.j2"
 ```
 
@@ -115,8 +113,7 @@ Get the address of a place by its name
           gmaps_api_key: "******************"
           language: "en"
           units: "metric"
-          args:
-            - search
+          search: "{{search}}"
           file_template: "templates/en_gmaps.j2"
 ```
 
@@ -134,8 +131,7 @@ Get the direction to go to destination using the tube (if possible)
           units: "metric"
           origin: "**my home address"
           direction: True
-          args:
-            - destination
+          destination: "{{destination}}"
           file_template: "templates/en_gmaps.j2"
 ```
 
@@ -153,8 +149,7 @@ Get the direction to go to destination by car
           units: "metric"
           origin: "**my home address**"
           direction: True
-          args:
-            - destination
+          destination: "{{destination}}"
           file_template: "templates/en_gmaps.j2"
 ```
 
