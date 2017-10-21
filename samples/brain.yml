@@ -10,10 +10,9 @@
           mode: "driving"
           language: "french"
           units: "metric"
-          traffic_model: "pessimistic"
-          args:
-            - origin
-            - destination
+          traffic_model: "pessimistic"   
+          origin: "{{origin}}"
+          destination: "{{destination}}"
           file_template: "templates/fr_gmaps.j2"
 
   - name: "Gmaps-distance-from-home"
@@ -29,8 +28,7 @@
           units: "metric"
           origin: "home address"
           mode: "driving"
-          args:
-            - destination
+          destination: "{{destination}}"
           file_template: "templates/fr_gmaps.j2"
 
   - name: "Gmaps-place-address"
@@ -43,8 +41,7 @@
           gmaps_api_key: "**********************"
           language: "french"
           units: "metric"
-          args:
-            - search
+          search: "{{search}}"
           file_template: "templates/fr_gmaps.j2"
 
   - name: "Gmaps-distance-from-home-by-tube"
@@ -60,8 +57,7 @@
           units: "metric"
           origin: "******"
           direction: True
-          args:
-            - destination
+          destination: "{{destination}}"
           file_template: "templates/fr_gmaps.j2"
 
   - name: "Gmaps-directions-by-care" 
@@ -77,6 +73,5 @@
           units: "metric" 
           origin: "*******" 
           direction: True 
-          args: 
-            - destination 
+          destination: "{{destination}}"
           file_template: "templates/fr_gmaps.j2" 
