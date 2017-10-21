@@ -1,4 +1,4 @@
-# kalliope-mpd
+# kalliope-gmaps
 
 A neuron to leverage googlemaps API
 
