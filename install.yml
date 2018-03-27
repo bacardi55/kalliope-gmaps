@@ -8,8 +8,8 @@
     - name: "Install gmaps pip dependencies"
       pip:
         name: googlemaps
-        version: 2.4.5
+        version: 2.5.1
     - name: "Install beautifulsoup pip dependencies"
       pip:
         name: beautifulsoup4
-        version: 4.5.3
+        version: 4.6.0
